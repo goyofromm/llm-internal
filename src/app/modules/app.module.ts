@@ -3,6 +3,7 @@ import { AppController } from '../controllers/app.controller.js';
 import { iKnowledgeSearch } from '../../domain/interfaces/iKnowledgeSearch.js';
 import { AnswerSystemQuestion } from '../../core/interactors/AnswerSystemQuestion.js';
 import { KnowledgeSearchAdapter } from '../../core/adapters/KnowledgeSearchAdapter.js';
+import { OpenAIAdapter } from '../../core/adapters/OpenAIAdapter.js';
 
 @Module({
   imports: [],
@@ -11,6 +12,10 @@ import { KnowledgeSearchAdapter } from '../../core/adapters/KnowledgeSearchAdapt
     {
       provide: 'iKnowledgeSearch',
       useClass: KnowledgeSearchAdapter
+    },
+    {
+      provide: 'iTextGenerate',
+      useClass: OpenAIAdapter
     },
     {
       provide: AnswerSystemQuestion,
