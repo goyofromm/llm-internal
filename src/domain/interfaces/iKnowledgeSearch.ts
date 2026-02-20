@@ -1,3 +1,3 @@
 export interface iKnowledgeSearch {
-    search(query: string): Promise<any>;
+  search(query: string): Promise<string>;
 }

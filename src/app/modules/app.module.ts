@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from '../controllers/app.controller.js';
 import { iKnowledgeSearch } from '../../domain/interfaces/iKnowledgeSearch.js';
+import type { iTextGenerate } from '../../domain/interfaces/iTextGenerate.js';
 import { AnswerSystemQuestion } from '../../core/interactors/AnswerSystemQuestion.js';
 import { KnowledgeSearchAdapter } from '../../core/adapters/KnowledgeSearchAdapter.js';
 import { OpenAIAdapter } from '../../core/adapters/OpenAIAdapter.js';
@@ -19,16 +20,15 @@ import { OpenAIAdapter } from '../../core/adapters/OpenAIAdapter.js';
     },
     {
       provide: AnswerSystemQuestion,
-      useFactory: async (
+      useFactory: (
         searchKnowledge: iKnowledgeSearch,
-      ) => {
-        return new AnswerSystemQuestion({
-          searchKnowledge
-        });
-      },
-      inject: [
-        'iKnowledgeSearch'
-      ],
+        textGenerate: iTextGenerate,
+      ) =>
+        new AnswerSystemQuestion({
+          searchKnowledge,
+          textGenerate,
+        }),
+      inject: ['iKnowledgeSearch', 'iTextGenerate'],
     },
   ],
 })
