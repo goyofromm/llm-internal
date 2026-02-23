@@ -24,7 +24,7 @@
           this.embeddings,
           {
             collectionName: "internal-docs",
-            url: "http://127.0.0.1:8000",
+            url: "http://chroma:8000",
           }
         );
       }
@@ -36,7 +36,7 @@
     async search(query: string): Promise<string> {
       const store = await this.getStore();
     
-      const results = await store.similaritySearchWithScore(query, 5);
+      const results = await store.similaritySearchWithScore(query, 10);
     
       const relevant = results
         .sort((a, b) => a[1] - b[1])
