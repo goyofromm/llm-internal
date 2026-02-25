@@ -1,10 +1,12 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { ApiKeyGuard } from './guard/api-key.guard.js';
 import { AnswerSystemQuestion } from '../../core/interactors/AnswerSystemQuestion.js';
 
 @Controller('/chat')
 export class AppController {
   constructor(private readonly answerSystemQuestion: AnswerSystemQuestion) {}
 
+  @UseGuards(ApiKeyGuard)
   @Post('/ask')
   async ask(@Body() body: { prompt?: string }) {
     if (!body.prompt) {

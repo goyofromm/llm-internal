@@ -1,7 +1,7 @@
   import { OpenAIEmbeddings } from '@langchain/openai';
   import { iKnowledgeSearch } from '../../domain/interfaces/iKnowledgeSearch.js';
   import { Chroma } from '@langchain/community/vectorstores/chroma';
-
+  import 'dotenv/config';
   /**
    * Returns context from internal docs relevant to the query.
    * Output is used by the use case to call the LLM.
