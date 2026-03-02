@@ -8,6 +8,11 @@ import { Chroma } from "@langchain/community/vectorstores/chroma";
 import { CSVLoader } from "@langchain/community/document_loaders/fs/csv";
 import { Document } from "langchain/document";
 import 'dotenv/config';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Genera un hash del archivo para detectar cambios
 function getFileHash(filePath: string): string {
