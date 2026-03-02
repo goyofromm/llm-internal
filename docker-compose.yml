@@ -3,27 +3,36 @@ version: "3.9"
 services:
   chroma:
     image: chromadb/chroma:0.4.24
-    container_name: chroma
-    restart: unless-stopped
+    container_name: chroma_prod
+    restart: always
+    environment:
+      - IS_PERSISTENT=TRUE
+      - PERSIST_DIRECTORY=/chroma/chroma
     ports:
       - "8000:8000"
     volumes:
+      # Este volumen es vital: aquí se guardan tus embeddings
       - chroma_data:/chroma/chroma
 
   api:
-    build: .
-    container_name: backend
-    restart: unless-stopped
+    build: 
+      context: .
+      dockerfile: Dockerfile # El que creamos antes con multi-stage
+    container_name: backend_prod
+    restart: always
     ports:
       - "3000:3000"
     environment:
+      - NODE_ENV=production
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - APP_API_KEY=${APP_API_KEY}
-      - DOCS_PATH=/data/docs
+      - CHROMA_URL=http://chroma:8000
+      - DOCS_PATH=/app/data/docs
     volumes:
-      - ./docs:/data/docs
+      # Carpeta para tus PDFs en el servidor
+      - ./docs:/app/data/docs
     depends_on:
       - chroma
 
 volumes:
-  chroma_data:
+  chroma_data: # Docker gestiona este espacio para que sea persistente
